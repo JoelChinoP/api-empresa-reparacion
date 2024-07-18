@@ -1,5 +1,6 @@
 package emp.rep.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,5 +30,6 @@ public class Empresa {
     private String direccion;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //nombre del objeto en la clase OrdenServicio
+    @JsonIgnore
     private List<OrdenServicio> ordenServicios;
 }

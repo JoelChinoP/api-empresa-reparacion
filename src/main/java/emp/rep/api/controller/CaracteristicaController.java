@@ -23,7 +23,7 @@ public class CaracteristicaController {
     @GetMapping
     public ResponseEntity<List<CaracteristicaDTO>> listadoCaracteristicas() {
         List<CaracteristicaDTO> lista = servicioCaract.obtenerTodo().stream()
-                .map(caracteristica -> new CaracteristicaDTO(caracteristica))
+                .map(CaracteristicaDTO::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(lista);
     }
