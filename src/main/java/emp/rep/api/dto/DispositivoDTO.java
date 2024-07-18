@@ -12,14 +12,4 @@ public record DispositivoDTO (
         ArrayList<String> caracteristicas
 ) {
 
-    public DispositivoDTO(Dispositivo obj) {
-        this(
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-    }
-
 }

@@ -2,6 +2,7 @@ package emp.rep.api.controller;
 
 import emp.rep.api.dto.DispositivoDTO;
 import emp.rep.api.model.Dispositivo;
+import emp.rep.api.model.DispositivoCaracteristica;
 import emp.rep.api.service.DispositivoService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dispositivos")
@@ -53,8 +56,22 @@ public class DispositivoController {
     @GetMapping
     public ResponseEntity<List<DispositivoDTO>> listadoClientes() {
         List<DispositivoDTO> lista = servicioDis.obtenerTodo().stream()
-                .map(DispositivoDTO::new)
+                .map(this::pasarDatos)
                 .toList();
         return ResponseEntity.ok(lista);
+    }
+
+
+    public DispositivoDTO pasarDatos(Dispositivo obj) {
+        return new DispositivoDTO(
+                obj.getSerial(),
+                obj.getNombre(),
+                obj.getTipo().getNombre(),
+                obj.getFabricante().getNombre(),
+                new ArrayList<>(obj.getCaracteristicas().stream()
+                        .filter(DispositivoCaracteristica::isTieneCaracteristica)
+                        .map(c -> c.getCaracteristica().getNombre())
+                        .collect(Collectors.toList()))
+        );
     }
 }
