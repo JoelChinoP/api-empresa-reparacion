@@ -32,7 +32,7 @@ public class ClienteService {
         return repositorio.findById(dni);
     }
 
-    public void eliminar(Cliente cliente) {
-        repositorio.delete(cliente);
+    public void eliminar(Cliente obj) {
+        repositorio.delete(obj);
     }
 }
