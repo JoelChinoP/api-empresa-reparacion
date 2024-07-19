@@ -1,6 +1,8 @@
 package emp.rep.api.service;
 
+import emp.rep.api.dto.BasicoDTO;
 import emp.rep.api.model.Caracteristica;
+import emp.rep.api.model.Fabricante;
 import emp.rep.api.repository.CaracteristicaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +18,37 @@ public class CaracteristicaService {
     @Autowired
     private CaracteristicaRepository repositorio;
 
-    public Optional<Caracteristica> obtenerPorID(Integer id) {
-        return repositorio.findById(id);
+    public Optional<BasicoDTO> obtenerPorID(Integer id) {
+        return repositorio.findById(id)
+                .map(BasicoDTO::new);
     }
 
-    public Optional<Caracteristica> obtenerPorNombre(String nombre) {
-        return repositorio.findByNombreIgnoreCase(nombre);
+    public Optional<BasicoDTO> obtenerPorNombre(String nombre) {
+        return repositorio.findByNombreIgnoreCase(nombre)
+                .map(BasicoDTO::new);
     }
 
-    public Caracteristica aniadir(Caracteristica objeto){
-        return repositorio.save(objeto);
+    public BasicoDTO aniadir(BasicoDTO obj) {
+        return new BasicoDTO(repositorio.save(new Caracteristica(
+                obj.id(), obj.nombre()
+        )));
     }
 
-    public Caracteristica modificar(Caracteristica objeto) {
-        return repositorio.save(objeto);
+    public BasicoDTO modificar(BasicoDTO obj) {
+        return new BasicoDTO(repositorio.save(new Caracteristica(
+                obj.id(), obj.nombre()
+        )));
     }
 
-    public void eliminar(Caracteristica objeto) {
-        repositorio.delete(objeto);
+    public void eliminar(BasicoDTO obj) {
+        repositorio.delete(new Caracteristica(
+                obj.id(), obj.nombre()
+        ));
     }
 
-    public List<Caracteristica> obtenerTodo() {
-        return repositorio.findAll();
+    public List<BasicoDTO> obtenerTodo() {
+        return repositorio.findAll().
+                stream().map(BasicoDTO::new)
+                .toList();
     }
 }

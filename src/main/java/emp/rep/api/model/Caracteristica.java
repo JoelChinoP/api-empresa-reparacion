@@ -36,4 +36,9 @@ public class Caracteristica {
     public Caracteristica(String nombre) {
         this.nombre = nombre;
     }
+
+    public Caracteristica(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 }

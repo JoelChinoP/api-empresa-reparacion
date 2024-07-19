@@ -23,6 +23,11 @@ public class DispositivoController {
     @Autowired
     private DispositivoService servicioDis;
 
+    @GetMapping
+    public ResponseEntity<List<DispositivoDTO>> listadoClientes() {
+        return ResponseEntity.ok(servicioDis.obtenerTodo());
+    }
+
     /*
     @PostMapping
     public ResponseEntity<Dispositivo> agregarDispositivo(@RequestBody @Validated Dispositivo obj,
@@ -53,25 +58,4 @@ public class DispositivoController {
         return ResponseEntity.noContent().build();
     }*/
 
-    @GetMapping
-    public ResponseEntity<List<DispositivoDTO>> listadoClientes() {
-        List<DispositivoDTO> lista = servicioDis.obtenerTodo().stream()
-                .map(this::pasarDatos)
-                .toList();
-        return ResponseEntity.ok(lista);
-    }
-
-
-    public DispositivoDTO pasarDatos(Dispositivo obj) {
-        return new DispositivoDTO(
-                obj.getSerial(),
-                obj.getNombre(),
-                obj.getTipo().getNombre(),
-                obj.getFabricante().getNombre(),
-                new ArrayList<>(obj.getCaracteristicas().stream()
-                        .filter(DispositivoCaracteristica::isTieneCaracteristica)
-                        .map(c -> c.getCaracteristica().getNombre())
-                        .collect(Collectors.toList()))
-        );
-    }
 }

@@ -1,5 +1,6 @@
 package emp.rep.api.service;
 
+import emp.rep.api.dto.BasicoDTO;
 import emp.rep.api.model.Fabricante;
 import emp.rep.api.repository.FabricanteRepository;
 import jakarta.transaction.Transactional;
@@ -16,20 +17,38 @@ public class FabricanteService {
     @Autowired
     private FabricanteRepository repositorio;
 
-    public List<Fabricante> obtenerTodo() {
-        return repositorio.findAll();
+    public Optional<BasicoDTO> obtenerPorID(Integer id) {
+        return repositorio.findById(id)
+                .map(BasicoDTO::new);
     }
 
-    public Optional<Fabricante> obtenerPorID(Integer id) {
-        return repositorio.findById(id);
+    public Optional<BasicoDTO> obtenerPorNombre(String nombre) {
+        return repositorio.findByNombreIgnoreCase(nombre)
+                .map(BasicoDTO::new);
     }
 
-    public Fabricante aniadir(Fabricante empresa) {
-        return repositorio.save(empresa);
+    public BasicoDTO aniadir(BasicoDTO obj) {
+        return new BasicoDTO(repositorio.save(new Fabricante(
+                obj.id(), obj.nombre()
+        )));
     }
 
-    public Fabricante modificar(Fabricante empresa) {
-        return repositorio.save(empresa);
+    public BasicoDTO modificar(BasicoDTO obj) {
+        return new BasicoDTO(repositorio.save(new Fabricante(
+                obj.id(), obj.nombre()
+        )));
+    }
+
+    public void eliminar(BasicoDTO obj) {
+        repositorio.delete(new Fabricante(
+                obj.id(), obj.nombre()
+        ));
+    }
+
+    public List<BasicoDTO> obtenerTodo() {
+        return repositorio.findAll().
+                stream().map(BasicoDTO::new)
+                .toList();
     }
 
 }

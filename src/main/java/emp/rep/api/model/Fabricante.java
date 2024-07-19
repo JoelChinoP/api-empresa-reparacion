@@ -23,4 +23,9 @@ public class Fabricante {
 
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //nombre del objeto en la clase Dispositivo
     private List<Dispositivo> dispositivos = new ArrayList<>();
+
+    public Fabricante(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 }
