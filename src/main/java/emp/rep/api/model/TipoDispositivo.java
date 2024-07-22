@@ -31,4 +31,8 @@ public class TipoDispositivo {
             inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
     )
     private List<Caracteristica> caracteristicas = new ArrayList<>();
+
+    public TipoDispositivo(String nombre) {
+        this.nombre = nombre;
+    }
 }

@@ -28,10 +28,45 @@ public class DetalleController {
 
 
     //Tipos
-    @GetMapping("/tipos")
+
+    @GetMapping("/tiposDispositivos")
     public ResponseEntity<List<TipoDispositivoDTO>> obtenerTipos() {
         return ResponseEntity.ok(servicioTip.obtenerTodo());
     }
+
+    @PostMapping("/tiposDispositivos")
+    public ResponseEntity<BasicoDTO> agregarTipoDispositivo(@RequestBody @Validated BasicoDTO obj,
+                                                       UriComponentsBuilder uriComponentsBuilder) {
+        BasicoDTO tipoNuevo = servicioTip.aniadir(obj);
+        URI url = uriComponentsBuilder.path("/tiposDispositivos/{id}").buildAndExpand(tipoNuevo.id()).toUri();
+        return ResponseEntity.created(url).body(tipoNuevo);
+    }
+
+    @GetMapping("/tiposDispositivos/{id}")
+    public ResponseEntity<TipoDispositivoDTO> obtenerTipoDispositivoID(@PathVariable Integer id) {
+        TipoDispositivoDTO tipoDispositivo = servicioTip.obtenerPorID(id).orElseThrow();
+        return ResponseEntity.ok(tipoDispositivo);
+    }
+
+    @GetMapping("/tiposDispositivos/nombre/{nombre}")
+    public ResponseEntity<TipoDispositivoDTO> obtenerTipoDispositivoNombre(@PathVariable String nombre) {
+        TipoDispositivoDTO tipoDispositivo = servicioTip.obtenerPorNombre(nombre).orElseThrow();
+        return ResponseEntity.ok(tipoDispositivo);
+    }
+
+    @GetMapping("/tiposDispositivos/{id}/caracteristicas")
+    public ResponseEntity<List<String>> obtenerCaracteristicasTipoDispositivoID(@PathVariable Integer id) {
+        List<String> caracteristicas = servicioTip.obtenerCaracteristicasPorID(id);
+        return ResponseEntity.ok(caracteristicas);
+    }
+
+    @GetMapping("/tiposDispositivos/nombre/{nombre}/caracteristicas")
+    public ResponseEntity<List<String>> obtenerCaracteristicasTipoDispositivoNombre(@PathVariable String nombre) {
+        List<String> caracteristicas = servicioTip.obtenerCaracteristicasPorNombre(nombre);
+        return ResponseEntity.ok(caracteristicas);
+    }
+
+
 
 
 

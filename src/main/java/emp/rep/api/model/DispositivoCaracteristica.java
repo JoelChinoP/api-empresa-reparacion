@@ -27,4 +27,10 @@ public class DispositivoCaracteristica {
 
     @Column(name = "tiene_caracteristica")
     private boolean tieneCaracteristica; // Campo booleano para indicar si tiene la característica
+
+    public DispositivoCaracteristica(Dispositivo dispositivo, Caracteristica caracteristica, String descripcion) {
+        this.dispositivo = dispositivo;
+        this.caracteristica = caracteristica;
+        this.descripcion = descripcion;
+    }
 }

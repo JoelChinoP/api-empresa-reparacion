@@ -8,7 +8,6 @@ public record TipoDispositivoDTO(
         List<String> caracteristicas
 ) {
     public TipoDispositivoDTO(Integer id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
+        this(id, nombre, List.of());
     }
 }

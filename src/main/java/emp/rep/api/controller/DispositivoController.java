@@ -28,6 +28,23 @@ public class DispositivoController {
         return ResponseEntity.ok(servicioDis.obtenerTodo());
     }
 
+
+    @PostMapping
+    public ResponseEntity<DispositivoDTO> agregarDispositivo(@RequestBody @Validated DispositivoDTO obj,
+                                                  UriComponentsBuilder uriComponentsBuilder) {
+        Dispositivo nuevoDispositivo = servicioDis.aniadir(obj);
+        URI url = uriComponentsBuilder.path("/dispositivos/{id}")
+                .buildAndExpand(nuevoDispositivo.getId()).toUri();
+        return ResponseEntity.created(url).body(servicioDis.pasarDatosModel(nuevoDispositivo));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DispositivoDTO> obtenerDispositivo(@PathVariable Long id) {
+        Dispositivo dispositivo = servicioDis.obtenerPorID(id).orElseThrow();
+        return ResponseEntity.ok(servicioDis.pasarDatosModel(dispositivo));
+    }
+
+
     /*
     @PostMapping
     public ResponseEntity<Dispositivo> agregarDispositivo(@RequestBody @Validated Dispositivo obj,

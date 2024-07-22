@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class OrdenServicio {
     @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
 
-    @Column
-    private Date fecha;
+    @Column(nullable = false, updatable = false)
+    private LocalDate fecha;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -34,5 +35,16 @@ public class OrdenServicio {
 
     @OneToMany(mappedBy = "ordenServicio", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //nombre del objeto en la clase Servicio
     private List<Servicio> servicios;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fecha = LocalDate.now();
+    }
+
+    public OrdenServicio(Empresa empresa, Cliente cliente, Trabajador trabajador) {
+        this.empresa = empresa;
+        this.cliente = cliente;
+        this.trabajador = trabajador;
+    }
 }
 

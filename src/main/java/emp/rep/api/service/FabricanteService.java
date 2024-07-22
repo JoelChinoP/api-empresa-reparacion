@@ -23,7 +23,8 @@ public class FabricanteService {
     }
 
     public Optional<BasicoDTO> obtenerPorNombre(String nombre) {
-        return repositorio.findByNombreIgnoreCase(nombre)
+        return repositorio.findByNombreIgnoreCase(
+                nombre.replace("+", " "))
                 .map(BasicoDTO::new);
     }
 

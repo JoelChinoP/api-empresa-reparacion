@@ -17,9 +17,6 @@ public class Dispositivo {
     private Long id;
 
     @Column(length = 40)
-    private String serial;
-
-    @Column(length = 40)
     private String nombre;
 
     @ManyToOne
@@ -30,13 +27,16 @@ public class Dispositivo {
     @JoinColumn(name = "tipo_id", nullable = false)
     TipoDispositivo tipo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 40)
-    private EstadoDispositivo estado;
 
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //nombre del objeto en la clase OrdenServicio
     private List<DispositivoCaracteristica> caracteristicas;
 
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //nombre del objeto en la clase Servicio
     private List<Servicio> servicios;
+
+    public Dispositivo(String nombre, Fabricante fabricante, TipoDispositivo tipo) {
+        this.nombre = nombre;
+        this.fabricante = fabricante;
+        this.tipo = tipo;
+    }
 }
