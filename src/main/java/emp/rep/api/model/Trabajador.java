@@ -1,5 +1,6 @@
 package emp.rep.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +31,7 @@ public class Trabajador extends DatosPersona{
     @OneToMany(mappedBy = "trabajador", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //nombre del objeto en la clase OrdenServicio
     private List<OrdenServicio> ordenServicios;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "trabajador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Usuario usuario;
 }
